@@ -66,20 +66,20 @@ if st.button("Generate Tweets"):
         col3.markdown("### Finetuned Tweet:")
         col3.write(f"🐦: {tweet}")
         col3.markdown("---")  # Add a horizontal line for separation
+        feedback = streamlit_feedback(
+            feedback_type="thumbs",
+            key=f"feedback_{st.session_state.run_id}",
+            align="flex-start"
+        )
+        scores = {"👍": 1, "👎": 0}
+        if feedback:
+            score = scores[feedback["score"]]
+            feedback = client.create_feedback(st.session_state.run_id, "user_score", score=score)
+            st.session_state.feedback = {"feedback_id": str(feedback.id), "score": score}
         tweet = generate_tweet_normal(topic)
         col4.markdown("### Prompted Tweet:")
         col4.write(f"🐦: {tweet}")
         col4.markdown("---")  # Add a horizontal line for separation
     else:
         st.warning("Please enter a topic before generating a tweet.")
-if st.session_state.get("run_id"):
-    feedback = streamlit_feedback(
-        feedback_type="thumbs",
-        key=f"feedback_{st.session_state.run_id}",
-        align="flex-start"
-    )
-    scores = {"👍": 1, "👎": 0}
-    if feedback:
-        score = scores[feedback["score"]]
-        feedback = client.create_feedback(st.session_state.run_id, "user_score", score=score)
-        st.session_state.feedback = {"feedback_id": str(feedback.id), "score": score}
+    
