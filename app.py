@@ -33,7 +33,7 @@ chain = (
 )
 
 def generate_tweet_normal(topic):
-    result = chain.invoke({"topic": topic})
+    result = normal_chain.invoke({"topic": topic})
     wait_for_all_tracers()
     return result
 
