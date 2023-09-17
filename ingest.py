@@ -28,6 +28,7 @@ if __name__ == "__main__":
     while True:
         try:
             job = openai.FineTuningJob.create(training_file=training_file.id, model="gpt-3.5-turbo")
+            break
         except Exception as e:
             print(e)
             print("Trying again in ten seconds....")
